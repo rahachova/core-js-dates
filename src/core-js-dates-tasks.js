@@ -237,10 +237,13 @@ function getWeekNumberByDate(currentDate) {
   const ONE_DAY = 1000 * 60 * 60 * 24;
   const januaryFirst = new Date(currentDate.getFullYear(), 0, 1);
   const firstWeekLength =
-    januaryFirst.getDay() === 0 ? 1 : 7 - januaryFirst.getDay() + 1;
+    januaryFirst.getUTCDay() === 0 ? 7 : 7 - januaryFirst.getUTCDay();
   const totalDays = Math.floor(
-    (currentDate - new Date(currentDate.getFullYear(), 0, 0)) / ONE_DAY + 1
+    (currentDate - new Date(currentDate.getFullYear(), 0, 0)) / ONE_DAY
   );
+  if (totalDays < firstWeekLength) {
+    return 1;
+  }
   return Math.ceil((totalDays - firstWeekLength) / 7) + 1;
 }
 
